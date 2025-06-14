@@ -2,22 +2,19 @@
 # -e: エラー発生時に即終了 / -x: 実行コマンドをログに出力(デバッグ用)
 set -ex
 
-# ユーザーが提示した、よりシンプルな方法をsudo付きで実行します。
-# これで失敗した場合は、APTリポジトリ方式（より複雑だが確実）を試します。
+# 1. ユーザーのホームディレクトリにコマンドを置くためのディレクトリを作成
+#    (~/.local/bin はPATHが通っていることが多く、推奨される場所です)
+mkdir -p ~/.local/bin
 
-echo "Downloading cloudflared..."
-wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+# 2. cloudflaredの実行可能ファイルを直接ダウンロードし、名前を 'cloudflared' にして
+#    作成したディレクトリに保存する
+wget -O ~/.local/bin/cloudflared https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
 
-echo "Installing cloudflared with sudo..."
-# dpkgコマンドの前に "sudo" を追加
-sudo dpkg -i cloudflared-linux-amd64.deb
+# 3. ダウンロードしたファイルに実行権限を付与する
+chmod +x ~/.local/bin/cloudflared
 
-# dpkgで依存関係エラーが出た場合に備えて、それを修正するコマンド
-# (-fは --fix-broken を意味します)
-echo "Fixing potential dependencies with sudo..."
-sudo apt-get install -f -y
-
-echo "Cleaning up..."
-rm cloudflared-linux-amd64.deb
-
-echo "cloudflared installation complete."
+echo ""
+echo "################################################################"
+echo "cloudflared binary downloaded successfully to ~/.local/bin/"
+echo "You can now run 'cloudflared' command in the notebook."
+echo "################################################################"
