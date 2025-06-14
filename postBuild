@@ -1,17 +1,23 @@
 #!/bin/bash
-# スクリプトの途中でエラーが発生したら、そこで処理を中断する設定
-set -e
+# -e: エラー発生時に即終了 / -x: 実行コマンドをログに出力(デバッグ用)
+set -ex
+
+# ユーザーが提示した、よりシンプルな方法をsudo付きで実行します。
+# これで失敗した場合は、APTリポジトリ方式（より複雑だが確実）を試します。
 
 echo "Downloading cloudflared..."
-# .debファイルをダウンロード
 wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
 
-echo "Installing cloudflared..."
-# dpkgを使ってインストール (postBuild内ではroot権限なのでsudoは不要)
-dpkg -i cloudflared-linux-amd64.deb
+echo "Installing cloudflared with sudo..."
+# dpkgコマンドの前に "sudo" を追加
+sudo dpkg -i cloudflared-linux-amd64.deb
+
+# dpkgで依存関係エラーが出た場合に備えて、それを修正するコマンド
+# (-fは --fix-broken を意味します)
+echo "Fixing potential dependencies with sudo..."
+sudo apt-get install -f -y
 
 echo "Cleaning up..."
-# 不要になった.debファイルを削除
 rm cloudflared-linux-amd64.deb
 
 echo "cloudflared installation complete."
