@@ -4,7 +4,7 @@ set -e
 
 echo "Downloading cloudflared..."
 # .debファイルをダウンロード
-wget -O cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
 
 echo "Installing cloudflared..."
 # dpkgを使ってインストール (postBuild内ではroot権限なのでsudoは不要)
