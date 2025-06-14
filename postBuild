@@ -1,0 +1,17 @@
+#!/bin/bash
+# スクリプトの途中でエラーが発生したら、そこで処理を中断する設定
+set -e
+
+echo "Downloading cloudflared..."
+# .debファイルをダウンロード
+wget -O cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
+
+echo "Installing cloudflared..."
+# dpkgを使ってインストール (postBuild内ではroot権限なのでsudoは不要)
+dpkg -i cloudflared.deb
+
+echo "Cleaning up..."
+# 不要になった.debファイルを削除
+rm cloudflared.deb
+
+echo "cloudflared installation complete."
