@@ -1,1 +1,465 @@
-const _0x1fff59=_0x3441;(function(_0x1c121d,_0x9cfcce){const _0x1d52d1=_0x3441,_0x2a19de=_0x1c121d();while(!![]){try{const _0x1ca9dc=-parseInt(_0x1d52d1(0x196))/0x1+parseInt(_0x1d52d1(0x17a))/0x2+parseInt(_0x1d52d1(0x16e))/0x3*(parseInt(_0x1d52d1(0x163))/0x4)+parseInt(_0x1d52d1(0x144))/0x5+-parseInt(_0x1d52d1(0x1bf))/0x6+parseInt(_0x1d52d1(0x1b6))/0x7*(parseInt(_0x1d52d1(0x169))/0x8)+-parseInt(_0x1d52d1(0x184))/0x9*(-parseInt(_0x1d52d1(0x19f))/0xa);if(_0x1ca9dc===_0x9cfcce)break;else _0x2a19de['push'](_0x2a19de['shift']());}catch(_0x58efcf){_0x2a19de['push'](_0x2a19de['shift']());}}}(_0x5aa6,0xa6165));const {Server,ServerEvent}=require(_0x1fff59(0x141)),WebSocket=require('ws'),fetch=require(_0x1fff59(0x153)),wanakana=require(_0x1fff59(0x1c4)),fs=require('fs'),JSON5=require('json5'),configPath='./config.json';let configFile=fs[_0x1fff59(0x1c0)](configPath,_0x1fff59(0x187));function _0x3441(_0x85237,_0x1ae6b1){const _0x5aa6df=_0x5aa6();return _0x3441=function(_0x344147,_0x4176d2){_0x344147=_0x344147-0x13b;let _0x39d068=_0x5aa6df[_0x344147];return _0x39d068;},_0x3441(_0x85237,_0x1ae6b1);}const config=JSON5[_0x1fff59(0x1af)](configFile);let {app_id,secret_key,username,sub_domain,proximity,spectator,password,distance,port,web_port,lang}=config,stop_roop=![],passwords={},positions={},shouldBroadcast=![],relayWs,mainWorld,localTcpClient;const RELAY_SERVER_DOMAIN=_0x1fff59(0x140);function _0x5aa6(){const _0x2632a2=['log','Minecraftコマンドを実行します:\x20','\x20{\x22rawtext\x22:[{\x22text\x22:\x22Command\x20list:\x0a\x20\x20!help\x20-\x20show\x20help\x0a\x20\x20!name\x20-\x20check\x20your\x20VC\x20name\x22}]}','toRomaji','=======================================================\x0a','!pvc\x20false','localPlayer','sendMessage','6637338SwKudD','readFileSync','\x20(index\x20','?clientType=binder_script','\x22lang\x22:\x20\x22ja\x22','wanakana','/create-room','victim','\x0aMax\x20distance:','\x0a!help\x20for\x20command\x20list','json','send','\x22password\x22:\x20true','message','map','!password\x20true','\x1b[33m[Log]\x1b[0m\x20','distance\x20=\x20','受信したメッセージの解析またはコマンド実行に失敗:','mcproxvc.tcpexposer.com','socket-be','OPEN','roomId','6508775CNscsn','\x20{\x22rawtext\x22:[{\x22text\x22:\x22--------------------\x22}]}','Error\x20handling\x20world:','split','tellraw\x20@a\x20{\x22rawtext\x22:[{\x22text\x22:\x22Spectator\x20and\x20VC\x20separated\x22}]}','Open','\x22\x20{\x22rawtext\x22:[{\x22text\x22:\x22ルームIDは','https://proximity-vc-mcbe.pages.dev?roomid=','!help','Participants\x20should\x20access\x20this\x20URL','!pvc\x20true','Connection\x20started\x0aProximity\x20voice\x20chat:','wss://','disabled','\x0a=======================================================','node-fetch','中継サーバーに接続しました。ブラウザからの指示を待っています...','open','action','Minecraft:\x20\x22/connect\x20localhost:','\x22proximity\x22:\x20true','!spectator\x20false','\x22spectator\x22:\x20false','close','です\x22}]}','replace','[MC]\x20処理中にエラーが発生しました:','に変更しました\x22}]}','[MC\x20Relay]\x20ローカルのsocket-beに接続成功。','details','includes','70452zbFDlF','WorldRemove','tellraw\x20@a\x20{\x22rawtext\x22:[{\x22text\x22:\x22Password\x20enabled\x22}]}','中継サーバーとの接続が切れました。','tellraw\x20@a\x20{\x22rawtext\x22:[{\x22text\x22:\x22Spectator\x20set\x20to\x20common\x20VC\x22}]}','Player\x20','1592JXWfQY','enabled','Minecraftから以下のコマンドで接続してください:','tellraw\x20@a\x20{\x22rawtext\x22:[{\x22text\x22:\x22proximity\x20voice\x20chat\x20enabled\x22}]}','run_command','102bEiqeT','ルームの作成または接続に失敗しました:','\x1b[36m[Info]\x1b[0m\x20',')。パートナー(Minecraft)の参加を待っています...','\x20{\x22rawtext\x22:[{\x22text\x22:\x22Host-only\x20command：\x0a\x20\x20!lang\x20-\x20!lang\x20<ja/en>\x20言語を変更できます\x0a\x20\x20!dis\x20-\x20!dis\x20<Number>\x20set\x20max\x20distance\x0a\x20\x20!pvc\x20-\x20!pvc\x20<true/false>\x20enable/disable\x20proximity\x20voice\x20chat\x0a\x20\x20!spectator\x20-\x20!spectator\x20<true/false>\x20separate\x20spectator\x20and\x20VC\x0a\x20\x20!password\x20-\x20!password\x20<true/false>\x20enable/disable\x20password\x22}]}','!dis\x20','querytarget\x20@a','statusText','\x22\x20{\x22rawtext\x22:[{\x22text\x22:\x22RoomID\x20is\x20','values','tellraw\x20@a\x20{\x22rawtext\x22:[{\x22text\x22:\x22Password\x20disabled\x22}]}','error','56598LJXClZ','startsWith','stringify','command_result','接続を開始しました\x0a近接vc：','readyState','tellraw\x20@a\x20{\x22rawtext\x22:[{\x22text\x22:\x22近接vcを有効にしました\x22}]}','/connect\x20','string','PlayerChat','783TRLYjO','partner_connected','!lang\x20ja','utf8','\x0a!help\x20でコマンド一覧を確認できます','参加者はこのURLにアクセスしてください','ROOM\x20ID:\x20','tellraw\x20@a\x20{\x22rawtext\x22:[{\x22text\x22:\x22Changed\x20max\x20distance\x20to\x20','all','world_update','\x20{\x22rawtext\x22:[{\x22text\x22:\x22コマンド一覧：\x0a\x20\x20!help\x20-\x20ヘルプを表示します\x0a\x20\x20!name\x20-\x20VCで使う名前を確認できます\x22}]}','WebSocketエラー:','/room/','\x22proximity\x22:\x20false','toString','random','\x0aYour\x20VCname\x20is\x20','https://','762605BcFczR','name','value','サーバーエラー:\x20','connection\x20opened:\x20','ws://127.0.0.1:','\x0a声の届く距離：','[MC\x20Local\x20WS\x20Error]','tellraw\x20@a\x20{\x22rawtext\x22:[{\x22text\x22:\x22パスワードを有効にしました\x22}]}','68980xMLJJs','です\x0aあなたのVCnameは','tellraw\x20\x22','\x22}]}','forEach','PlayerLeave',')\x20is\x20alive\x20and\x20not\x20spectator,\x20but\x20position\x20data\x20is\x20missing\x20or\x20invalid.\x20Defaulting.','\x22password\x22:\x20false','\x22\x20{\x22rawtext\x22:[{\x22text\x22:\x22Password\x20is\x20','writeFileSync','\x20{\x22rawtext\x22:[{\x22text\x22:\x22ホスト専用コマンド：\x0a\x20\x20!lang\x20-\x20!lang\x20<ja/en>\x20chenge\x20language\x0a\x20\x20!dis\x20-\x20!dis\x20<数値>\x20で声の届く距離を変更できます\x0a\x20\x20!pvc\x20-\x20!pvc\x20<true/false>\x20で近接vcを有効/無効にできます\x0a\x20\x20!spectator\x20-\x20!spectator\x20<true/false>\x20でスペクテイターとVCを分けます\x0a\x20\x20!password\x20-\x20!password\x20<true/false>\x20でパスワードを有効/無効にできます\x22}]}','from','tellraw\x20','players','tellraw\x20@a\x20{\x22rawtext\x22:[{\x22text\x22:\x22<Proximity\x20VC>Language\x20set\x20to\x20English\x22}]}','runCommand','parse','warn','PlayerJoin','position','!spectator\x20true','testfor\x20@a[m=spectator]','0123456789','707ObioMh'];_0x5aa6=function(){return _0x2632a2;};return _0x5aa6();}function broadcastPositions(){const _0x459467=_0x1fff59;if(relayWs&&relayWs[_0x459467(0x17f)]===WebSocket[_0x459467(0x142)]){const _0x296078=JSON[_0x459467(0x17c)]({'type':_0x459467(0x18d),'payload':{'positions':positions,'distance':distance,'password':password,'passwords':passwords,'app_id':app_id,'secret_key':secret_key}});relayWs[_0x459467(0x1ca)](_0x296078);}}function processName(_0x45d23d){const _0x5f15c6=_0x45d23d['replace'](/ /g,'_'),_0x3bd4d5=wanakana['toRomaji'](_0x5f15c6);return _0x3bd4d5['replace'](/n'/g,'n');}async function handleWorld(_0x53c29a){const _0x5e88c0=_0x1fff59;try{const _0x5ea8c4=_0x53c29a[_0x5e88c0(0x1ac)],_0x3f255f=Array[_0x5e88c0(0x1aa)](_0x5ea8c4['values']())[_0x5e88c0(0x13b)](_0x26b216=>String(_0x26b216[_0x5e88c0(0x197)]));if(proximity){const [_0x4673e4,_0x3152cb,_0x3aa342]=await Promise[_0x5e88c0(0x18c)]([_0x53c29a['runCommand']('testfor\x20@e[type=player]'),_0x53c29a[_0x5e88c0(0x1ae)](_0x5e88c0(0x1b4)),_0x53c29a[_0x5e88c0(0x1ae)](_0x5e88c0(0x174))]),_0x369115=_0x4673e4[_0x5e88c0(0x1c6)]||[],_0x1e1d6b=_0x3152cb['victim']||[],_0x3ce0e8=_0x3aa342[_0x5e88c0(0x161)]||'[]',_0x4c2244=JSON[_0x5e88c0(0x1af)](_0x3ce0e8);_0x3f255f[_0x5e88c0(0x1a3)]((_0x1c9654,_0x207eb4)=>{const _0x45eff2=_0x5e88c0,_0x30afcb=processName(_0x1c9654);if(!_0x369115[_0x45eff2(0x162)](_0x1c9654))positions[_0x30afcb]={'x':0x0,'y':0x4e20,'z':0x0};else{if(spectator&&_0x1e1d6b[_0x45eff2(0x162)](_0x1c9654))positions[_0x30afcb]={'x':0x0,'y':0x2710,'z':0x0};else{if(_0x4c2244[_0x207eb4]&&_0x4c2244[_0x207eb4][_0x45eff2(0x1b2)]){const _0x1bca3b=_0x4c2244[_0x207eb4][_0x45eff2(0x1b2)];positions[_0x30afcb]={'x':_0x1bca3b['x'],'y':_0x1bca3b['y'],'z':_0x1bca3b['z']};}else console[_0x45eff2(0x1b0)](_0x45eff2(0x168)+_0x1c9654+_0x45eff2(0x1c1)+_0x207eb4+_0x45eff2(0x1a5)),positions[_0x30afcb]={'x':0x0,'y':0x7530,'z':0x0};}}}),shouldBroadcast=!![];}else _0x3f255f[_0x5e88c0(0x1a3)](_0x51c027=>{positions[processName(_0x51c027)]={'x':0x0,'y':0x2710,'z':0x0};}),shouldBroadcast=!![];}catch(_0x4f10f4){console[_0x5e88c0(0x179)](_0x5e88c0(0x146),_0x4f10f4);}!stop_roop&&setTimeout(()=>handleWorld(_0x53c29a),0x64);}function server_log_info(_0x28bca0){const _0x16474c=_0x1fff59;console[_0x16474c(0x1b7)](_0x16474c(0x170)+_0x28bca0);}function server_log_log(_0x17e050){const _0xb9b323=_0x1fff59;console[_0xb9b323(0x1b7)](_0xb9b323(0x13d)+_0x17e050);}function periodicBroadcast(){shouldBroadcast&&(broadcastPositions(),shouldBroadcast=![]),setTimeout(periodicBroadcast,0x32);}const server=new Server({'port':port,'disableEncryption':!![],'timezone':'Asia/Tokyo'});server['on'](ServerEvent[_0x1fff59(0x183)],async _0x2a1f44=>{const _0x5928ae=_0x1fff59,{sender:_0x1d4cb8,message:_0x330c3d,world:_0xe90855}=_0x2a1f44;if(_0x330c3d==='!test'){const _0x6af5af=_0xe90855[_0x5928ae(0x1ac)],_0x3e6ffd=Array[_0x5928ae(0x1aa)](_0x6af5af[_0x5928ae(0x177)]())[_0x5928ae(0x13b)](_0x5d0238=>_0x5d0238['name']);console['log'](Array['from'](_0x6af5af['values']())[_0x5928ae(0x13b)](_0x200da1=>_0x200da1));}if(_0x330c3d[_0x5928ae(0x17b)](_0x5928ae(0x173))){dis=_0x330c3d[_0x5928ae(0x147)]('\x20');if(!isNaN(dis[0x1])){const _0x57e01f=_0xe90855['localPlayer'][_0x5928ae(0x197)];_0x1d4cb8[_0x5928ae(0x197)]==_0x57e01f&&(distance=Number(dis[0x1]),configFile=configFile['replace'](/"distance":\s*[\d.]+/,'\x22distance\x22:\x20'+distance),fs[_0x5928ae(0x1a8)](configPath,configFile,_0x5928ae(0x187)),lang=='ja'?await _0xe90855['runCommand']('tellraw\x20@a\x20{\x22rawtext\x22:[{\x22text\x22:\x22声の最大距離を'+distance+_0x5928ae(0x15f)):await _0xe90855[_0x5928ae(0x1ae)](_0x5928ae(0x18b)+distance+_0x5928ae(0x1a2)));}console[_0x5928ae(0x1b7)](_0x5928ae(0x13e)+distance);}else{if(_0x330c3d==='!name'){const _0x4ba332=_0x1d4cb8[_0x5928ae(0x197)]['replace'](/ /g,'_');senderName=wanakana[_0x5928ae(0x1ba)](_0x4ba332);let _0x331946=senderName['replace'](/n'/g,'n');console[_0x5928ae(0x1b7)](_0x331946);lang=='ja'?await _0xe90855['runCommand'](_0x5928ae(0x1a1)+_0x1d4cb8[_0x5928ae(0x197)]+_0x5928ae(0x14a)+sub_domain+_0x5928ae(0x1a0)+_0x331946+_0x5928ae(0x15c)):await _0xe90855[_0x5928ae(0x1ae)](_0x5928ae(0x1a1)+_0x1d4cb8[_0x5928ae(0x197)]+_0x5928ae(0x176)+sub_domain+_0x5928ae(0x194)+_0x331946+_0x5928ae(0x1a2));if(password){if(!passwords[_0x331946]){let _0x1c46da='';const _0x140381=_0x5928ae(0x1b5);for(let _0x4dbbf0=0x0;_0x4dbbf0<0x4;_0x4dbbf0++){const _0x70086a=Math['floor'](Math[_0x5928ae(0x193)]()*_0x140381['length']);_0x1c46da+=_0x140381[_0x70086a];}passwords[_0x331946]=_0x1c46da;}lang=='ja'?await _0xe90855[_0x5928ae(0x1ae)]('tellraw\x20\x22'+_0x1d4cb8['name']+'\x22\x20{\x22rawtext\x22:[{\x22text\x22:\x22パスワードは'+passwords[_0x331946]+_0x5928ae(0x15c)):await _0xe90855[_0x5928ae(0x1ae)](_0x5928ae(0x1a1)+_0x1d4cb8[_0x5928ae(0x197)]+_0x5928ae(0x1a7)+passwords[_0x331946]+_0x5928ae(0x1a2));}}else{if(_0x330c3d===_0x5928ae(0x13c)){const _0xc9cd75=_0xe90855[_0x5928ae(0x1bd)][_0x5928ae(0x197)];_0x1d4cb8[_0x5928ae(0x197)]==_0xc9cd75&&(password=!![],configFile=configFile[_0x5928ae(0x15d)](/"password": false/,_0x5928ae(0x1cb)),fs[_0x5928ae(0x1a8)](configPath,configFile,_0x5928ae(0x187)),lang=='ja'?await _0xe90855[_0x5928ae(0x1ae)](_0x5928ae(0x19e)):await _0xe90855[_0x5928ae(0x1ae)](_0x5928ae(0x165)));}else{if(_0x330c3d==='!password\x20false'){const _0x2b6168=_0xe90855[_0x5928ae(0x1bd)][_0x5928ae(0x197)];_0x1d4cb8[_0x5928ae(0x197)]==_0x2b6168&&(password=![],configFile=configFile[_0x5928ae(0x15d)](/"password": true/,_0x5928ae(0x1a6)),fs['writeFileSync'](configPath,configFile,'utf8'),lang=='ja'?await _0xe90855['runCommand']('tellraw\x20@a\x20{\x22rawtext\x22:[{\x22text\x22:\x22パスワードを無効にしました\x22}]}'):await _0xe90855[_0x5928ae(0x1ae)](_0x5928ae(0x178)));}else{if(_0x330c3d===_0x5928ae(0x14e)){const _0xf686dc=_0xe90855[_0x5928ae(0x1bd)]['name'];_0x1d4cb8[_0x5928ae(0x197)]==_0xf686dc&&(proximity=!![],configFile=configFile[_0x5928ae(0x15d)](/"proximity": false/,_0x5928ae(0x158)),fs[_0x5928ae(0x1a8)](configPath,configFile,_0x5928ae(0x187)),lang=='ja'?await _0xe90855[_0x5928ae(0x1ae)](_0x5928ae(0x180)):await _0xe90855[_0x5928ae(0x1ae)](_0x5928ae(0x16c)));}else{if(_0x330c3d===_0x5928ae(0x1bc)){const _0x1ca66c=_0xe90855[_0x5928ae(0x1bd)][_0x5928ae(0x197)];_0x1d4cb8[_0x5928ae(0x197)]==_0x1ca66c&&(proximity=![],configFile=configFile['replace'](/"proximity": true/,_0x5928ae(0x191)),fs[_0x5928ae(0x1a8)](configPath,configFile,_0x5928ae(0x187)),lang=='ja'?await _0xe90855[_0x5928ae(0x1ae)]('tellraw\x20@a\x20{\x22rawtext\x22:[{\x22text\x22:\x22近接vcを無効にしました\x22}]}'):await _0xe90855[_0x5928ae(0x1ae)]('tellraw\x20@a\x20{\x22rawtext\x22:[{\x22text\x22:\x22proximity\x20voice\x20chat\x20disabled\x22}]}'));}else{if(_0x330c3d===_0x5928ae(0x1b3)){const _0x391b0a=_0xe90855['localPlayer'][_0x5928ae(0x197)];_0x1d4cb8['name']==_0x391b0a&&(proximity=!![],configFile=configFile[_0x5928ae(0x15d)](/"spectator": false/,'\x22spectator\x22:\x20true'),fs['writeFileSync'](configPath,configFile,_0x5928ae(0x187)),lang=='ja'?await _0xe90855[_0x5928ae(0x1ae)]('tellraw\x20@a\x20{\x22rawtext\x22:[{\x22text\x22:\x22スペクテイターとVCを分けました\x22}]}'):await _0xe90855['runCommand'](_0x5928ae(0x148)));}else{if(_0x330c3d===_0x5928ae(0x159)){const _0x1d43eb=_0xe90855[_0x5928ae(0x1bd)][_0x5928ae(0x197)];_0x1d4cb8[_0x5928ae(0x197)]==_0x1d43eb&&(proximity=![],configFile=configFile[_0x5928ae(0x15d)](/"spectator": true/,_0x5928ae(0x15a)),fs[_0x5928ae(0x1a8)](configPath,configFile,_0x5928ae(0x187)),lang=='ja'?await _0xe90855[_0x5928ae(0x1ae)]('tellraw\x20@a\x20{\x22rawtext\x22:[{\x22text\x22:\x22スペクテイターを共通のVCにしました\x22}]}'):await _0xe90855[_0x5928ae(0x1ae)](_0x5928ae(0x167)));}else{if(_0x330c3d===_0x5928ae(0x186)){const _0x2430a8=_0xe90855[_0x5928ae(0x1bd)][_0x5928ae(0x197)];_0x1d4cb8[_0x5928ae(0x197)]==_0x2430a8&&(lang='ja',configFile=configFile[_0x5928ae(0x15d)](/"lang": "en"/,_0x5928ae(0x1c3)),fs['writeFileSync'](configPath,configFile,'utf8'),await _0xe90855[_0x5928ae(0x1ae)]('tellraw\x20@a\x20{\x22rawtext\x22:[{\x22text\x22:\x22<近接VC>言語を日本語に設定しました\x22}]}'));}else{if(_0x330c3d==='!lang\x20en'){const _0x236a99=_0xe90855['localPlayer'][_0x5928ae(0x197)];_0x1d4cb8[_0x5928ae(0x197)]==_0x236a99&&(lang='en',configFile=configFile[_0x5928ae(0x15d)](/"lang": "ja"/,'\x22lang\x22:\x20\x22en\x22'),fs[_0x5928ae(0x1a8)](configPath,configFile,_0x5928ae(0x187)),await _0xe90855[_0x5928ae(0x1ae)](_0x5928ae(0x1ad)));}else{if(_0x330c3d===_0x5928ae(0x14c)){await _0xe90855['runCommand'](_0x5928ae(0x1ab)+_0x1d4cb8[_0x5928ae(0x197)]+_0x5928ae(0x145));if(lang=='ja'){await _0xe90855['runCommand'](_0x5928ae(0x1ab)+_0x1d4cb8[_0x5928ae(0x197)]+_0x5928ae(0x18e));const _0x5f0d1e=_0xe90855[_0x5928ae(0x1bd)]['name'];_0x1d4cb8[_0x5928ae(0x197)]==_0x5f0d1e&&await _0xe90855[_0x5928ae(0x1ae)](_0x5928ae(0x1ab)+_0x1d4cb8[_0x5928ae(0x197)]+_0x5928ae(0x1a9));}else{await _0xe90855[_0x5928ae(0x1ae)](_0x5928ae(0x1ab)+_0x1d4cb8[_0x5928ae(0x197)]+_0x5928ae(0x1b9));const _0x4157a9=_0xe90855[_0x5928ae(0x1bd)][_0x5928ae(0x197)];_0x1d4cb8['name']==_0x4157a9&&await _0xe90855[_0x5928ae(0x1ae)]('tellraw\x20'+_0x1d4cb8[_0x5928ae(0x197)]+_0x5928ae(0x172));}await _0xe90855[_0x5928ae(0x1ae)](_0x5928ae(0x1ab)+_0x1d4cb8[_0x5928ae(0x197)]+'\x20{\x22rawtext\x22:[{\x22text\x22:\x22--------------------\x22}]}');}}}}}}}}}}}}),server['on'](ServerEvent[_0x1fff59(0x149)],()=>{const _0x491cec=_0x1fff59;server_log_info(_0x491cec(0x157)+port+'\x22\x20で接続します'),server_log_log(_0x491cec(0x155));}),server['on'](ServerEvent['WorldAdd'],async _0xdff7a9=>{const _0x3490f4=_0x1fff59,{world:_0x10887f}=_0xdff7a9;server_log_info(_0x3490f4(0x19a)+_0x10887f[_0x3490f4(0x197)]);if(lang=='ja'){let _0x4e5e23='';proximity?_0x4e5e23='有効':_0x4e5e23='無効',_0x10887f['sendMessage'](_0x3490f4(0x17e)+_0x4e5e23+_0x3490f4(0x19c)+distance+_0x3490f4(0x188));}else{let _0x5cca84='';proximity?_0x5cca84=_0x3490f4(0x16a):_0x5cca84=_0x3490f4(0x151),_0x10887f[_0x3490f4(0x1be)](_0x3490f4(0x14f)+_0x5cca84+_0x3490f4(0x1c7)+distance+_0x3490f4(0x1c8));}await handleWorld(_0x10887f);}),server['on'](ServerEvent[_0x1fff59(0x164)],_0x5c4ac4=>{const _0xea5219=_0x1fff59,{world:_0xafd1bb}=_0x5c4ac4;stop_roop=!![],server_log_info('connection\x20closed:\x20'+_0xafd1bb[_0xea5219(0x197)]);}),server['on'](ServerEvent[_0x1fff59(0x1b1)],_0x2ee663=>{const {player:_0x221a0d}=_0x2ee663;server_log_info('Joined:\x20'+_0x221a0d['name']);}),server['on'](ServerEvent[_0x1fff59(0x1a4)],async _0x5993f2=>{const _0x354b05=_0x1fff59,{player:_0x342930}=_0x5993f2;server_log_info('Left:\x20'+_0x342930[_0x354b05(0x197)]),positions[_0x342930['name']]={'x':0x0,'y':0x2710,'z':0x0};});async function connectToRelayServer(){const _0xf9a992=_0x1fff59;console['log']('中継サーバーに新しいルームの作成をリクエストします...');try{const _0x489f8a=await fetch('https://'+RELAY_SERVER_DOMAIN+'/create-room');if(!_0x489f8a['ok'])throw new Error(_0xf9a992(0x199)+_0x489f8a[_0xf9a992(0x175)]);const _0xfdc6e4=await _0x489f8a[_0xf9a992(0x1c9)](),_0xce65d0=_0xfdc6e4[_0xf9a992(0x143)];console[_0xf9a992(0x1b7)](_0xf9a992(0x152)),console[_0xf9a992(0x1b7)](_0xf9a992(0x18a)+_0xce65d0),console[_0xf9a992(0x1b7)](_0xf9a992(0x189)),console[_0xf9a992(0x1b7)](_0xf9a992(0x14d)),console[_0xf9a992(0x1b7)](_0xf9a992(0x14b)+_0xce65d0),console[_0xf9a992(0x1b7)](_0xf9a992(0x1bb));const _0x5aa626=_0xf9a992(0x150)+RELAY_SERVER_DOMAIN+_0xf9a992(0x190)+_0xce65d0+_0xf9a992(0x1c2);relayWs=new WebSocket(_0x5aa626),relayWs['on'](_0xf9a992(0x155),()=>{const _0x1a6684=_0xf9a992;console[_0x1a6684(0x1b7)](_0x1a6684(0x154));}),relayWs['on']('message',async _0x4c71b7=>{const _0x219bc5=_0xf9a992,_0x18df95=_0x4c71b7[_0x219bc5(0x192)]();console['log']('ブラウザからメッセージを受信:\x20'+_0x18df95);try{const _0x2ba9a9=JSON[_0x219bc5(0x1af)](_0x18df95);if(mainWorld&&_0x2ba9a9[_0x219bc5(0x156)]===_0x219bc5(0x16d)&&typeof _0x2ba9a9[_0x219bc5(0x198)]===_0x219bc5(0x182)){console[_0x219bc5(0x1b7)](_0x219bc5(0x1b8)+_0x2ba9a9[_0x219bc5(0x198)]);const _0x1165f1=await mainWorld[_0x219bc5(0x1ae)](_0x2ba9a9[_0x219bc5(0x198)]);relayWs['send'](JSON['stringify']({'type':_0x219bc5(0x17d),'payload':_0x1165f1}));}}catch(_0x565f4f){console[_0x219bc5(0x179)](_0x219bc5(0x13f),_0x565f4f);}}),relayWs['on'](_0xf9a992(0x15b),()=>console[_0xf9a992(0x1b7)](_0xf9a992(0x166))),relayWs['on'](_0xf9a992(0x179),_0x3f5e59=>console[_0xf9a992(0x179)](_0xf9a992(0x18f),_0x3f5e59));}catch(_0x1f5cbd){console[_0xf9a992(0x179)](_0xf9a992(0x16f),_0x1f5cbd);}}async function connectMcToServerRelay(){const _0x433321=_0x1fff59;console['log']('[MC\x20Relay]\x20Minecraft接続用の中継サーバーにルーム作成をリクエストします...');try{const _0x58f438=await fetch(_0x433321(0x195)+RELAY_SERVER_DOMAIN+_0x433321(0x1c5)),_0x167683=await _0x58f438['json'](),_0x5c3db6=_0x167683[_0x433321(0x143)];console[_0x433321(0x1b7)](_0x433321(0x152)),console[_0x433321(0x1b7)](_0x433321(0x16b)),console[_0x433321(0x1b7)]('Connect\x20from\x20Minecraft\x20with\x20the\x20following\x20command:'),console[_0x433321(0x1b7)](_0x433321(0x181)+RELAY_SERVER_DOMAIN+_0x433321(0x190)+_0x5c3db6),console[_0x433321(0x1b7)](_0x433321(0x1bb));const _0x102d66=_0x433321(0x150)+RELAY_SERVER_DOMAIN+_0x433321(0x190)+_0x5c3db6+'?clientType=binder_script',_0x10e4ff=new WebSocket(_0x102d66);_0x10e4ff['on']('open',()=>{const _0x1c0532=_0x433321;console[_0x1c0532(0x1b7)]('[MC\x20Relay]\x20中継サーバーに接続完了(ID:\x20'+_0x5c3db6+_0x1c0532(0x171));}),_0x10e4ff['on'](_0x433321(0x1cc),_0x5770cd=>{const _0x1159b4=_0x433321;try{const _0x4b3299=JSON[_0x1159b4(0x1af)](_0x5770cd[_0x1159b4(0x192)]());if(_0x4b3299['type']===_0x1159b4(0x185)){console['log']('★★★\x20[MC\x20Relay]\x20パートナー接続通知を受信。ローカルブリッジを構築します。\x20★★★');const _0x5d8113=_0x10e4ff,_0x1148f1=new WebSocket(_0x1159b4(0x19b)+port);localTcpClient=_0x1148f1,_0x1148f1['on'](_0x1159b4(0x155),()=>console[_0x1159b4(0x1b7)](_0x1159b4(0x160))),_0x1148f1['on'](_0x1159b4(0x1cc),_0x336984=>{const _0x470bb4=_0x1159b4;if(_0x5d8113[_0x470bb4(0x17f)]===WebSocket['OPEN'])_0x5d8113[_0x470bb4(0x1ca)](_0x336984);}),_0x1148f1['on']('error',_0x3ecb5d=>console['error'](_0x1159b4(0x19d),_0x3ecb5d['message'])),_0x1148f1['on'](_0x1159b4(0x15b),()=>{const _0x191b51=_0x1159b4;if(_0x5d8113[_0x191b51(0x17f)]===WebSocket[_0x191b51(0x142)])_0x5d8113['close']();});return;}}catch(_0xf78eaa){}localTcpClient&&localTcpClient['readyState']===WebSocket[_0x1159b4(0x142)]&&localTcpClient[_0x1159b4(0x1ca)](_0x5770cd);}),_0x10e4ff['on'](_0x433321(0x15b),()=>{const _0x57f6e7=_0x433321;console[_0x57f6e7(0x1b7)]('[MC\x20Relay]\x20中継サーバーとの接続が切れました。');if(localTcpClient)localTcpClient[_0x57f6e7(0x15b)]();}),_0x10e4ff['on'](_0x433321(0x179),_0x5078c4=>console[_0x433321(0x179)]('[MC\x20Relay]\x20WebSocketエラー:',_0x5078c4));}catch(_0x5b8eab){console[_0x433321(0x179)](_0x433321(0x15e),_0x5b8eab);}}periodicBroadcast(),connectMcToServerRelay(),connectToRelayServer();
+const { Server, ServerEvent } = require('socket-be');
+const WebSocket = require('ws');
+const fetch = require('node-fetch'); // HTTPリクエスト用
+const wanakana = require('wanakana');
+const fs = require('fs');
+const JSON5 = require('json5');
+
+// --- グローバル変数定義 ---
+const configPath = './config.json';
+let configFile = fs.readFileSync(configPath, 'utf8');
+const config = JSON5.parse(configFile);
+let { app_id, secret_key, username, sub_domain, proximity, spectator, password, distance, port, web_port, lang } = config;
+
+let stop_roop = false;
+let passwords = {};
+let positions = {};
+let shouldBroadcast = false;
+
+// ★★★ 新しいグローバル変数 ★★★
+let relayWs; // 外部リレーサーバーへのWebSocket接続インスタンス
+let mainWorld; // 現在のworldオブジェクトを保持
+let localTcpClient;   // socket-beへのローカルTCP接続用
+
+// ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+// ★★★ あなたのGlitchサーバーのドメイン名に書き換えてください ★★★
+const RELAY_SERVER_DOMAIN = 'mcproxvc.tcpexposer.com';
+// ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+
+
+// ★★★ ローカルWebSocketサーバーのコードは完全に削除 ★★★
+// const wss = new WebSocket.Server({ port: web_port }); ... の部分は不要
+
+
+// ★★★ データをリレーサーバーに送信するよう変更 ★★★
+function broadcastPositions() {
+  // relayWs が接続済みの場合のみ送信
+  if (relayWs && relayWs.readyState === WebSocket.OPEN) {
+    const dataToSend = JSON.stringify({
+      type: 'world_update', // メッセージの種別を定義
+      payload: { // 実際のデータ
+        positions,
+        distance,
+        password,
+        passwords,
+        app_id,
+        secret_key,
+      }
+    });
+    relayWs.send(dataToSend);
+  }
+}
+
+// 既存の関数 (sendtell, processName) は変更なし
+async function sendtell(world) {
+  await world.runCommand(`tellraw @a {"rawtext":[{"text":"§e【運営】§b近接VC（しゃべくら）中Discordの「近接VCの使い方」をよく読んで参加してね！"}]}`);
+  setTimeout(() => sendtell(world), 300000);
+}
+function processName(name) {
+  const vcname1 = name.replace(/ /g, "_");
+  const senderName = wanakana.toRomaji(vcname1);
+  return senderName.replace(/n'/g, "n");
+}
+
+
+// 既存の関数 (handleWorld) は変更なし
+async function handleWorld(world) {
+  try {
+    const playersMap = world.players;
+    const playerNames = Array.from(playersMap.values()).map(player => String(player.name));
+
+    if (proximity) {
+      const [notDeathCmdResult, spectatorsCmdResult, queryTargetCmdResult] = await Promise.all([
+        world.runCommand(`testfor @e[type=player]`),
+        world.runCommand(`testfor @a[m=spectator]`),
+        world.runCommand(`querytarget @a`)
+      ]);
+      const alivePlayerNames = notDeathCmdResult.victim || [];
+      const spectatorPlayerNames = spectatorsCmdResult.victim || [];
+      const queryTargetDetailsString = queryTargetCmdResult.details || "[]";
+      const parsedPlayerInfoArray = JSON.parse(queryTargetDetailsString);
+
+      playerNames.forEach((playerName, index) => {
+        const processedName = processName(playerName);
+        if (!alivePlayerNames.includes(playerName)) {
+          positions[processedName] = { x: 0, y: 20000, z: 0 };
+        } else if (spectator && spectatorPlayerNames.includes(playerName)) {
+          positions[processedName] = { x: 0, y: 10000, z: 0 };
+        } else if (parsedPlayerInfoArray[index] && parsedPlayerInfoArray[index].position) {
+          const position = parsedPlayerInfoArray[index].position;
+          positions[processedName] = { x: position.x, y: position.y, z: position.z };
+        } else {
+          console.warn(`Player ${playerName} (index ${index}) is alive and not spectator, but position data is missing or invalid. Defaulting.`);
+          positions[processedName] = { x: 0, y: 30000, z: 0 };
+        }
+      });
+      shouldBroadcast = true;
+    } else {
+      playerNames.forEach(playerName => {
+        positions[processName(playerName)] = { x: 0, y: 10000, z: 0 };
+      });
+      shouldBroadcast = true;
+    }
+  } catch (error) {
+    console.error('Error handling world:', error);
+  }
+  if (!stop_roop) {
+    // requestAnimationFrameの代わりにsetTimeoutを使用
+    setTimeout(() => handleWorld(world), 100);
+  }
+}
+
+// 既存の関数 (server_log_info, server_log_log) は変更なし
+function server_log_info(message) {
+  console.log("\x1b[36m[Info]\x1b[0m " + message);
+}
+function server_log_log(message) {
+  console.log("\x1b[33m[Log]\x1b[0m " + message);
+}
+
+// 既存の関数 (periodicBroadcast) は変更なし
+function periodicBroadcast() {
+  if (shouldBroadcast) {
+    broadcastPositions();
+    shouldBroadcast = false;
+  }
+  setTimeout(periodicBroadcast, 50);
+}
+
+const server = new Server({
+  port: port,
+  disableEncryption: true,
+  timezone: 'Asia/Tokyo'
+});
+
+server.on(ServerEvent.PlayerChat, async ev => {
+  const { sender, message, world } = ev;
+  if (message === "!test") {
+    const playersMap = world.players
+    const players = Array.from(playersMap.values()).map(player => player.name);
+    console.log(Array.from(playersMap.values()).map(player => player));
+  }
+  if (message.startsWith('!dis ')) {
+    dis = message.split(' ');
+    if (!isNaN(dis[1])) {
+      const host = world.localPlayer.name;
+      if (sender.name == host) {
+        distance = Number(dis[1]);
+        configFile = configFile.replace(/"distance":\s*[\d.]+/, `"distance": ${distance}`);
+        fs.writeFileSync(configPath, configFile, 'utf8');
+        if (lang == "ja") {
+          await world.runCommand(`tellraw @a {"rawtext":[{"text":"声の最大距離を${distance}に変更しました"}]}`);
+        } else {
+          await world.runCommand(`tellraw @a {"rawtext":[{"text":"Changed max distance to ${distance}"}]}`);
+        }
+      }
+    }
+    console.log("distance = " + distance);
+
+  }
+  else if (message === '!name') {
+    const vcname1 = sender.name.replace(/ /g, "_");
+    senderName = wanakana.toRomaji(vcname1);
+    let vcname = senderName.replace(/n'/g, "n");
+    console.log(vcname);
+    if (lang == "ja") {
+      await world.runCommand(`tellraw "${sender.name}" {"rawtext":[{"text":"ルームIDは${sub_domain}です\nあなたのVCnameは${vcname}です"}]}`);
+    } else {
+      await world.runCommand(`tellraw "${sender.name}" {"rawtext":[{"text":"RoomID is ${sub_domain}\nYour VCname is ${vcname}"}]}`);
+    }
+    if (password) {
+      if (!passwords[vcname]) {
+        let otp = '';
+        const characters = '0123456789';
+        for (let i = 0; i < 4; i++) {
+          const randomIndex = Math.floor(Math.random() * characters.length);
+          otp += characters[randomIndex];
+        }
+        passwords[vcname] = otp;
+      }
+      if (lang == "ja") {
+        await world.runCommand(`tellraw "${sender.name}" {"rawtext":[{"text":"パスワードは${passwords[vcname]}です"}]}`);
+      } else {
+        await world.runCommand(`tellraw "${sender.name}" {"rawtext":[{"text":"Password is ${passwords[vcname]}"}]}`);
+      }
+    }
+  } else if (message === '!password true') {
+    const host = world.localPlayer.name;
+    if (sender.name == host) {
+      password = true
+      configFile = configFile.replace(/"password": false/, `"password": true`);
+      fs.writeFileSync(configPath, configFile, 'utf8');
+      if (lang == "ja") {
+        await world.runCommand(`tellraw @a {"rawtext":[{"text":"パスワードを有効にしました"}]}`);
+      } else {
+        await world.runCommand(`tellraw @a {"rawtext":[{"text":"Password enabled"}]}`);
+      }
+    }
+  } else if (message === '!password false') {
+    const host = world.localPlayer.name;
+    if (sender.name == host) {
+      password = false
+      configFile = configFile.replace(/"password": true/, `"password": false`);
+      fs.writeFileSync(configPath, configFile, 'utf8');
+      if (lang == "ja") {
+        await world.runCommand(`tellraw @a {"rawtext":[{"text":"パスワードを無効にしました"}]}`);
+      } else {
+        await world.runCommand(`tellraw @a {"rawtext":[{"text":"Password disabled"}]}`);
+      }
+    }
+  } else if (message === '!pvc true') {
+    const host = world.localPlayer.name;
+    if (sender.name == host) {
+      proximity = true
+      configFile = configFile.replace(/"proximity": false/, `"proximity": true`);
+      fs.writeFileSync(configPath, configFile, 'utf8');
+      if (lang == "ja") {
+        await world.runCommand(`tellraw @a {"rawtext":[{"text":"近接vcを有効にしました"}]}`);
+      } else {
+        await world.runCommand(`tellraw @a {"rawtext":[{"text":"proximity voice chat enabled"}]}`);
+      }
+    }
+  } else if (message === '!pvc false') {
+    const host = world.localPlayer.name;
+    if (sender.name == host) {
+      proximity = false
+      configFile = configFile.replace(/"proximity": true/, `"proximity": false`);
+      fs.writeFileSync(configPath, configFile, 'utf8');
+      if (lang == "ja") {
+        await world.runCommand(`tellraw @a {"rawtext":[{"text":"近接vcを無効にしました"}]}`);
+      } else {
+        await world.runCommand(`tellraw @a {"rawtext":[{"text":"proximity voice chat disabled"}]}`);
+      }
+    }
+  } else if (message === '!spectator true') {
+    const host = world.localPlayer.name;
+    if (sender.name == host) {
+      proximity = true
+      configFile = configFile.replace(/"spectator": false/, `"spectator": true`);
+      fs.writeFileSync(configPath, configFile, 'utf8');
+      if (lang == "ja") {
+        await world.runCommand(`tellraw @a {"rawtext":[{"text":"スペクテイターとVCを分けました"}]}`);
+      } else {
+        await world.runCommand(`tellraw @a {"rawtext":[{"text":"Spectator and VC separated"}]}`);
+      }
+    }
+  } else if (message === '!spectator false') {
+    const host = world.localPlayer.name;
+    if (sender.name == host) {
+      proximity = false
+      configFile = configFile.replace(/"spectator": true/, `"spectator": false`);
+      fs.writeFileSync(configPath, configFile, 'utf8');
+      if (lang == "ja") {
+        await world.runCommand(`tellraw @a {"rawtext":[{"text":"スペクテイターを共通のVCにしました"}]}`);
+      } else {
+        await world.runCommand(`tellraw @a {"rawtext":[{"text":"Spectator set to common VC"}]}`);
+      }
+    }
+  } else if (message === '!lang ja') {
+    const host = world.localPlayer.name;
+    if (sender.name == host) {
+      lang = "ja"
+      configFile = configFile.replace(/"lang": "en"/, `"lang": "ja"`);
+      fs.writeFileSync(configPath, configFile, 'utf8');
+      await world.runCommand(`tellraw @a {"rawtext":[{"text":"<近接VC>言語を日本語に設定しました"}]}`);
+    }
+  } else if (message === '!lang en') {
+    const host = world.localPlayer.name;
+    if (sender.name == host) {
+      lang = "en"
+      configFile = configFile.replace(/"lang": "ja"/, `"lang": "en"`);
+      fs.writeFileSync(configPath, configFile, 'utf8');
+      await world.runCommand(`tellraw @a {"rawtext":[{"text":"<Proximity VC>Language set to English"}]}`);
+    }
+  } else if (message === '!help') {
+    await world.runCommand(`tellraw ${sender.name} {"rawtext":[{"text":"--------------------"}]}`);
+    if (lang == "ja") {
+      await world.runCommand(`tellraw ${sender.name} {"rawtext":[{"text":"コマンド一覧：\n  !help - ヘルプを表示します\n  !name - VCで使う名前を確認できます"}]}`);
+      const host = world.localPlayer.name;
+      if (sender.name == host) {
+        await world.runCommand(`tellraw ${sender.name} {"rawtext":[{"text":"ホスト専用コマンド：\n  !lang - !lang <ja/en> chenge language\n  !dis - !dis <数値> で声の届く距離を変更できます\n  !pvc - !pvc <true/false> で近接vcを有効/無効にできます\n  !spectator - !spectator <true/false> でスペクテイターとVCを分けます\n  !password - !password <true/false> でパスワードを有効/無効にできます"}]}`);
+      }
+    } else {
+      await world.runCommand(`tellraw ${sender.name} {"rawtext":[{"text":"Command list:\n  !help - show help\n  !name - check your VC name"}]}`);
+      const host = world.localPlayer.name;
+      if (sender.name == host) {
+        await world.runCommand(`tellraw ${sender.name} {"rawtext":[{"text":"Host-only command：\n  !lang - !lang <ja/en> 言語を変更できます\n  !dis - !dis <Number> set max distance\n  !pvc - !pvc <true/false> enable/disable proximity voice chat\n  !spectator - !spectator <true/false> separate spectator and VC\n  !password - !password <true/false> enable/disable password"}]}`);
+      }
+    }
+    await world.runCommand(`tellraw ${sender.name} {"rawtext":[{"text":"--------------------"}]}`);
+  }
+});
+
+server.on(ServerEvent.Open, () => {
+  server_log_info(`Minecraft: "/connect localhost:${port}" で接続します`)
+  server_log_log("open");
+});
+
+server.on(ServerEvent.WorldAdd, async (ev) => {
+  const { world } = ev;
+  server_log_info(`connection opened: ${world.name}`);
+  if (lang == "ja") {
+    let vc = "";
+    proximity ? vc = '有効' : vc = '無効';
+    world.sendMessage(`接続を開始しました\n近接vc：${vc}\n声の届く距離：${distance}\n!help でコマンド一覧を確認できます`);
+  } else {
+    let vc = "";
+    proximity ? vc = 'enabled' : vc = 'disabled';
+    world.sendMessage(`Connection started\nProximity voice chat:${vc}\nMax distance:${distance}\n!help for command list`);
+  }
+  const host = await world.getLocalPlayer();
+  await handleWorld(world);
+});
+
+server.on(ServerEvent.WorldRemove, (ev) => {
+  const { world } = ev;
+  stop_roop = true;
+  server_log_info(`connection closed: ${world.name}`);
+});
+
+server.on(ServerEvent.PlayerJoin, (ev) => {
+  const { player } = ev;
+  server_log_info(`Joined: ${player.name}`);
+});
+
+server.on(ServerEvent.PlayerLeave, async (ev) => {
+  const { player } = ev;
+  server_log_info(`Left: ${player.name}`);
+  positions[player.name] = { x: 0, y: 10000, z: 0 };
+});
+
+// ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+// ★★★ ここからが新しく追加された、リレーサーバーに接続する処理 ★★★
+// ★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+
+async function connectToRelayServer() {
+  console.log('中継サーバーに新しいルームの作成をリクエストします...');
+
+  try {
+    // 1. HTTPリクエストでルームIDを取得
+    const response = await fetch(`https://${RELAY_SERVER_DOMAIN}/create-room`);
+    if (!response.ok) throw new Error(`サーバーエラー: ${response.statusText}`);
+    const data = await response.json();
+    const roomId = data.roomId;
+
+    // 2. 取得したルームIDをユーザーに分かりやすく表示
+    console.log("\n=======================================================");
+    console.log(`ROOM ID: ${roomId}`);
+    console.log("参加者はこのURLにアクセスしてください");
+    console.log("Participants should access this URL")
+    console.log("https://proximity-vc-mcbe.pages.dev?roomid=" + roomId);
+    console.log("=======================================================\n");
+
+    // 3. WebSocketでサーバーに接続
+    const wsUrl = `wss://${RELAY_SERVER_DOMAIN}/room/${roomId}?clientType=binder_script`;
+    relayWs = new WebSocket(wsUrl); // グローバル変数に接続を保存
+
+    relayWs.on('open', () => {
+      console.log('中継サーバーに接続しました。ブラウザからの指示を待っています...');
+    });
+
+    relayWs.on('message', async (message) => {
+      const msgString = message.toString();
+      console.log(`ブラウザからメッセージを受信: ${msgString}`);
+
+      try {
+        const command = JSON.parse(msgString);
+        // mainWorld が存在する場合のみコマンドを実行
+        if (mainWorld && command.action === 'run_command' && typeof command.value === 'string') {
+          console.log(`Minecraftコマンドを実行します: ${command.value}`);
+          const result = await mainWorld.runCommand(command.value);
+          // 実行結果をブラウザに送り返す
+          relayWs.send(JSON.stringify({ type: 'command_result', payload: result }));
+        }
+      } catch (e) {
+        console.error('受信したメッセージの解析またはコマンド実行に失敗:', e);
+      }
+    });
+
+    relayWs.on('close', () => console.log('中継サーバーとの接続が切れました。'));
+    relayWs.on('error', (error) => console.error('WebSocketエラー:', error));
+
+  } catch (error) {
+    console.error('ルームの作成または接続に失敗しました:', error);
+  }
+}
+
+// connectMcToServerRelay 関数をこれに置き換えてください
+
+async function connectMcToServerRelay() {
+  console.log('[MC Relay] Minecraft接続用の中継サーバーにルーム作成をリクエストします...');
+  try {
+    // 1. ルームIDを取得
+    const response = await fetch(`https://${RELAY_SERVER_DOMAIN}/create-room`);
+    const data = await response.json();
+    const mcRoomId = data.roomId;
+
+    // 2. 接続情報を表示
+    console.log("\n=======================================================");
+    console.log("Minecraftから以下のコマンドで接続してください:");
+    console.log("Connect from Minecraft with the following command:")
+    console.log(`/connect ${RELAY_SERVER_DOMAIN}/room/${mcRoomId}`); // パス形式のURL
+    console.log("=======================================================\n");
+
+    // 3. ★★★ 自分が'binder_script'であることをクエリパラメータで伝える ★★★
+    const relayUrl = `wss://${RELAY_SERVER_DOMAIN}/room/${mcRoomId}?clientType=binder_script`;
+    const mcRelayWs = new WebSocket(relayUrl);
+
+    mcRelayWs.on('open', () => {
+      console.log(`[MC Relay] 中継サーバーに接続完了(ID: ${mcRoomId})。パートナー(Minecraft)の参加を待っています...`);
+    });
+
+    mcRelayWs.on('message', (message) => {
+      // 4. ★★★ メッセージを判別するロジック ★★★
+      try {
+        const command = JSON.parse(message.toString());
+        // パートナー接続通知を受け取ったら、ブリッジ構築を開始
+        if (command.type === 'partner_connected') {
+          console.log('★★★ [MC Relay] パートナー接続通知を受信。ローカルブリッジを構築します。 ★★★');
+
+          // この接続をグローバルに保存して、ブリッジ関数が使えるようにする
+          // (もしmcRelayWsをグローバル変数にしている場合は不要)
+          const bridgeRelayWs = mcRelayWs;
+
+          // ブリッジ用のローカルWebSocketクライアントを作成
+          const localWsToBe = new WebSocket(`ws://127.0.0.1:${port}`);
+          localTcpClient = localWsToBe; // グローバル変数に保存
+
+          localWsToBe.on('open', () => console.log('[MC Relay] ローカルのsocket-beに接続成功。'));
+
+          // B) socket-beからの返信をリレーに流す
+          localWsToBe.on('message', (returnData) => {
+            if (bridgeRelayWs.readyState === WebSocket.OPEN) bridgeRelayWs.send(returnData);
+          });
+
+          localWsToBe.on('error', (err) => console.error('[MC Local WS Error]', err.message));
+          localWsToBe.on('close', () => {
+            if (bridgeRelayWs.readyState === WebSocket.OPEN) bridgeRelayWs.close();
+          });
+          return; // 通知メッセージの処理はここまで
+        }
+      } catch (e) {
+        // JSONでなければゲームデータと判断
+      }
+
+      // 5. ゲームデータは、確立済みのブリッジに流す
+      if (localTcpClient && localTcpClient.readyState === WebSocket.OPEN) {
+        localTcpClient.send(message);
+      }
+    });
+
+    mcRelayWs.on('close', () => {
+      console.log('[MC Relay] 中継サーバーとの接続が切れました。');
+      if (localTcpClient) localTcpClient.close();
+    });
+    mcRelayWs.on('error', (err) => console.error('[MC Relay] WebSocketエラー:', err));
+
+  } catch (error) {
+    console.error('[MC] 処理中にエラーが発生しました:', error);
+  }
+}
+
+// --- すべての処理を開始 ---
+periodicBroadcast(); // 定期ブロードキャストを開始
+connectMcToServerRelay()
+connectToRelayServer(); // リレーサーバーへの接続を開始
